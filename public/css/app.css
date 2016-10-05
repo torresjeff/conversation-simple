@@ -15,6 +15,26 @@ div {
   line-height: 1.25rem;
 }
 
+#button-yes {
+  width: 100px;
+  margin: 5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 2px;
+  background-color:#66B266;
+  color: white;
+}
+
+#button-no {
+  width: 100px;
+  margin: 5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 2px;
+  background-color:#ff3232;
+  color: white;
+}
+
 #view-change-button {
   display: inline-block;
   position: absolute;

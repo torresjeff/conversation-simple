@@ -24,6 +24,18 @@
             placeholder="Type something" type="text"
             onkeydown="ConversationPanel.inputKeyDown(event, this)">
         </label>
+        <script>
+          function yesBye() {
+              var latestResponse = Api.getResponsePayload();
+              var context = latestResponse.context;
+              Api.sendRequest("yes", context);
+          }
+          function noBye() {
+              var latestResponse = Api.getResponsePayload();
+              var context = latestResponse.context;
+              Api.sendRequest("no", context);
+          }
+      </script>
       </div>
     </div>
     <div id="payload-column" class="fixed-column content-column">
