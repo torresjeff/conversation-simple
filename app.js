@@ -80,14 +80,44 @@ app.post( '/api/message', function(req, res) {
       payload.context = req.body.context;
     }
   }
-  // Send the input to the conversation service
+ //Create a payload for Conversation Simple App
+  var convoSimplePayload = payload;
+  //Make a request to send the payload to Conversation simple app
+  var convoSimpleData = sendMessageToConversationService(convoSimplePayload , function(data1){
+
+    //Create a payload for chitchat workspace
+    var chitchatPayload = payload;
+    chitchatPayload.workspace_id = process.env.CHITCHAT_WORKSPACE_ID;
+      //If anything else node is detected, then call chit chat workspace
+      if(data1.context.hasOwnProperty('call_chitchat') && data1.context.call_chitchat)
+      {
+        //Make a request to send the payload to chit chat workspace
+        var chitchatData = sendMessageToConversationService(chitchatPayload, function(data2){
+
+          //send message to chit chat workspace
+          return res.json( updateMessage( chitchatPayload, data2 ) );
+        });
+      }
+      //otherwise send message to convo simple workspace
+      else
+        return res.json( updateMessage( convoSimplePayload , data1 ) );
+  });
+
+} );
+
+/**
+* Send the user utterance to the conversation service
+* @param {object} The request to converstaion service
+* @param {object} Call back
+*/
+var sendMessageToConversationService = function(payload, cb){
   conversation.message( payload, function(err, data) {
     if ( err ) {
       return res.status( err.code || 500 ).json( err );
     }
-    return res.json( updateMessage( payload, data ) );
+    cb(data);
   } );
-} );
+}
 
 /**
  * Updates the response text using the intent confidence
