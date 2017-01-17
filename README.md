@@ -150,7 +150,7 @@ After you have the app deployed and running, you can explore the source files an
 
 ## Deploying to Bluemix
 
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/torresjeff/conversation-simple # [required])
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/torresjeff/conversation-simple)
 
 
 You can use Cloud Foundry to deploy your local version of the app to Bluemix.
