@@ -22,6 +22,9 @@ var Api = (function() {
     },
     setResponsePayload: function(newPayloadStr) {
       responsePayload = JSON.parse(newPayloadStr);
+      if (responsePayload.context.ocultarInput) {
+        $("#textInput").attr("type", "password");
+      }
     }
   };
 

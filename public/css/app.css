@@ -8,6 +8,10 @@ body {
   font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background: url(../img/bg-vehicular.png);
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-color: #E4F7FD;
 }
 
 div {
@@ -44,7 +48,7 @@ div {
 }
 
 #contentParent {
-  height: 100%;
+  height: 90%;
 }
 
 .responsive-columns-wrapper {
@@ -74,6 +78,8 @@ div {
   text-align: left;
   max-width: 25rem;
   min-width: 9.375rem;
+  border: 1px solid #00B4A0;
+  background: white;
 }
 
 #scrollingChat {
@@ -177,7 +183,7 @@ div {
 
 .from-watson.latest.top p:before {
   content: ".";
-  color: #9855D4;
+  color: #ed1c24;
   background-image: url("../img/marker_image.png");
   background-size: 0.3125rem 1.3125rem;
   position: absolute;
@@ -428,4 +434,54 @@ html{
   url('../fonts/ibm-glyphs.svg?1b8643#ibm-glyph') format('svg');
   font-weight: normal;
   font-style: normal;
+}
+
+header {
+	height: 10%;
+    max-height: 78px;
+    max-width: 25rem;
+    margin: auto;
+    z-index: 999;
+	position: relative;
+}
+header #logo {
+	background: url(../img/logo.png);
+	display: block;
+	width: 190px;
+	height: 80px;
+  margin: auto;
+  background-size: 100% 100%;
+}
+
+.plan {
+	border: 1px solid #CCC;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.plan h2 {
+	background: #ffc700;
+    margin: 0px;
+    height: 42px;
+    padding-top: 12px;
+    text-align: center;
+    color: white;
+    font-size: 22px;
+}
+.plan.two h2 {
+	background: #3bbeac;
+}
+.plan.three h2 {
+	background: #81bb00;
+}
+.plan span {
+	display: block;
+    text-align: center;
+    font-size: 26px;
+    margin-top: 20px;
+    color: #3bbeac;
+}
+.plan ul {
+	padding-left: 40px;
+    padding-right: 20px;
+    padding-bottom: 5px;
 }

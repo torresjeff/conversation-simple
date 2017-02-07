@@ -17,9 +17,12 @@ var ConversationPanel = (function() {
     }
   };
 
+  var silentMessage = false;
+
   // Publicly accessible methods defined
   return {
     init: init,
+    sendSilentMessage: sendSilentMessage,
     inputKeyDown: inputKeyDown
   };
 
@@ -114,6 +117,10 @@ var ConversationPanel = (function() {
 
   // Display a user or Watson message that has just been sent/received
   function displayMessage(newPayload, typeValue) {
+    if (silentMessage) {
+      silentMessage = false;
+      return;
+    }
     var isUser = isUserMessage(typeValue);
     var textExists = (newPayload.input && newPayload.input.text)
       || (newPayload.output && newPayload.output.text);
@@ -160,6 +167,8 @@ var ConversationPanel = (function() {
       textArray = [textArray];
     }
     var messageArray = [];
+    
+    console.log(textArray);
 
     textArray.forEach(function(currentText) {
       if (currentText) {
@@ -196,20 +205,23 @@ var ConversationPanel = (function() {
   //   This is done so that the "context" of the conversation is maintained in the view,
   //   even if the Watson message is long.
   function scrollToChatBottom() {
-    var scrollingChat = document.querySelector('#scrollingChat');
+    $('#scrollingChat').stop().animate({
+        scrollTop: $('#scrollingChat')[0].scrollHeight
+      }, 800);
+    /*var scrollingChat = document.querySelector('#scrollingChat');
 
     // Scroll to the latest message sent by the user
     var scrollEl = scrollingChat.querySelector(settings.selectors.fromUser
             + settings.selectors.latest);
     if (scrollEl) {
       scrollingChat.scrollTop = scrollEl.offsetTop;
-    }
+    }*/
   }
 
-  // Handles the submission of input
-  function inputKeyDown(event, inputBox) {
-    // Submit on enter key, dis-allowing blank messages
-    if (event.keyCode === 13 && inputBox.value) {
+  // Send the text selected when a button is clicked.
+  function sendSilentMessage(text, inputBox) {
+    // Dis-allow blank messages
+    if (text) {
       // Retrieve the context from the previous server response
       var context;
       var latestResponse = Api.getResponsePayload();
@@ -217,8 +229,47 @@ var ConversationPanel = (function() {
         context = latestResponse.context;
       }
 
+      // Set silentMessage to true, so the text isn't displayed.
+      silentMessage = true;
+
       // Send the user message
-      Api.sendRequest(inputBox.value, context);
+      Api.sendRequest(text, context);
+
+      // Clear input box for further messages
+      inputBox.value = '';
+      Common.fireEvent(inputBox, 'input');
+
+      // Disable buttons so they can't be clicked anymore.
+      $("button").prop("disabled", true);
+    }
+  }
+
+  // Handles the submission of input
+  function inputKeyDown(event, inputBox) {
+    // Submit on enter key, dis-allowing blank messages
+    if (event.keyCode === 13 && inputBox.value) {
+      var silent = false;
+      // Retrieve the context from the previous server response
+      var context;
+      var latestResponse = Api.getResponsePayload();
+      if (latestResponse) {
+        context = latestResponse.context;
+        if (context.ocultarInput) {
+          console.log("context.ocultarInput = true en conversation.js");
+          delete context.ocultarInput;
+          silent = true;
+          $("#textInput").attr("type", "text");
+          // revisar sendSilentMessage aqui
+        }
+      }
+
+      if (silent) {
+        sendSilentMessage(inputBox.value, inputBox);
+      }
+      else {
+        // Send the user message
+        Api.sendRequest(inputBox.value, context);
+      }
 
       // Clear input box for further messages
       inputBox.value = '';

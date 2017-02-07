@@ -28,6 +28,8 @@ var Common = (function() {
     var element = document.createElement(domJson.tagName);
 
     // Fill the "content" of the element
+    console.log("building");
+    console.log(domJson.text);
     if (domJson.text) {
       element.innerHTML = domJson.text;
     } else if (domJson.html) {

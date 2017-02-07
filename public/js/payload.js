@@ -29,9 +29,9 @@ var PayloadPanel = (function() {
   }
 
   // Toggle panel between being:
-  // reduced width (default for large resolution apps)
-  // hidden (default for small/mobile resolution apps)
-  // full width (regardless of screen size)
+  //    reduced width (default for large resolution apps)
+  //    hidden (default for small/mobile resolution apps)
+  //    full width (regardless of screen size)
   function togglePanel(event, element) {
     var payloadColumn = document.querySelector(settings.selectors.payloadColumn);
     if (element.classList.contains('full')) {
